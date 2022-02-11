@@ -1,0 +1,86 @@
+[
+  {
+    "adaptability": 5,
+    "breed": "golden-retriever",
+    "image": "https://pixabay.com/get/g3fc6dca05bae3589c43fbc074dcdd518fc5f692bcf26d9787c3ffbb83725fb74e64dbb4d3bc779594443a00ec858680c268a14922ee430993a306d8af1b2886d192f6b82aa2489fe70135424c708cedd_640.jpg",
+    "maintenance": 3,
+    "type": "dog"
+  },
+  {
+    "adaptability": 4,
+    "breed": "german-shepherd",
+    "image": "https://pixabay.com/get/g9cad8ed1c46a6c201d120c3ded1bee08c559433d05e8af6563e23980064b2d65f0faf587bccff5b841408d798c3f4f39b58f50297ed869955b87df7d896fc49388320b29e88f60260576c8886e585302_640.jpg",
+    "maintenance": 2,
+    "type": "dog"
+  },
+  {
+    "adaptability": 3,
+    "breed": "british-short-hair",
+    "image": "https://pixabay.com/get/g554042b78cf5df2a074a1236d5e98e812782e577a372e7cb0aad2d8587f1b8325d08c1a9dfb62220194a592b49dfe85c5b9c775ac8ef462847afb38a691d88727023454fa4b55603c1aecd7e47d58733_640.jpg",
+    "maintenance": 2,
+    "type": "cat"
+  },
+  {
+    "adaptability": 2,
+    "breed": "persian",
+    "image": "https://pixabay.com/get/gd56a8bd9e6ce0ca72ee0a1025dcbd71c62a3a99da474d44a19569ccac127ed2f72eca62670a8d437975ca0f3d164d964c9041faa0f337cba484ebc6499ca78e1a2a96ee57cc84b8f7eca52079567c668_640.jpg",
+    "maintenance": 5,
+    "type": "cat"
+  },
+  {
+    "adaptability": 4,
+    "breed": "bulldog",
+    "image": "https://pixabay.com/get/g7bfed905b15ad901b57a97ea89f148d4a0222ddeb2e226566140b5b98aa265ddb9faae44eee670ddb97b2809b783c03153dd56d67de91d6d176b73101ceeb1f902d407096831856a4c837c884a9e6124_640.jpg",
+    "maintenance": 2,
+    "type": "dog"
+  },
+  {
+    "adaptability": 5,
+    "maintenance": 2,
+    "image": "https://pixabay.com/get/gdb7ad76d9f78007d8bd938ee246bee365cebedf8824ac0cc8feb80c96d3ad0a1c5760c3b9c471aab8335db20ce502d54f41db6b1702350dfd8648e24be26f7d077fd2566256e2b10b521a0b6f8758f9e_640.jpg",
+    "species": "parrot",
+    "type": "bird"
+  },
+  {
+    "adaptability": 2,
+    "image": "https://pixabay.com/get/gbff3d44cf1f589593ef61343bf89aa63085d378acddaa492719c0810100c5a4ae0dfdf0b1761dc0c60e84055c9296cd1955055c43e914b2da8385965c78f5c383dbb347c19cd97d19be7c06b0e84de19_640.jpg",
+    "maintenance": 4,
+    "species": "finch",
+    "type": "bird"
+  },
+  {
+    "adaptability": 3,
+    "breed": "pomeranian",
+    "image": "https://pixabay.com/get/g5688af3bf63a0e3b63e0e157dd815f8a2c82c3a0f65fe0d22b22be82a1f982106c58a405939f44fcaad5c5c37dc806ded5ec1f922edfad33ef062873a06768e8e463ee772851c00e1cb648d1632bd99c_640.jpg",
+    "maintenance": 4,
+    "type": "dog"
+  },
+  {
+    "adaptability": 5,
+    "breed": "siamese",
+    "image": "https://pixabay.com/get/g2cb452cda1745cd175a6e8187da1df7eafd4a3b8a7efd6e97c60e8dd1fa74b88b593b033247bdaae6e4723864cb09379a4c453a5c8f1e46a8c8eb5f39ca659d255b13521bf22ff168105ccef6f40b345_640.jpg",
+    "maintenance": 1,
+    "type": "cat"
+  },
+  {
+    "adaptability": 4,
+    "breed": "main-coon",
+    "image": "https://pixabay.com/get/g4c9cb5d2c7075a47247c564644118e8eb0cda3774595593096e7f0718cfd75663b9d158ead537ad5888d20cdbbc02003843ef7780d6bbddb760d844ebbb87339c1b56c3279bdcc4acfa4e835fe5399d2_640.jpg",
+    "maintenance": 4,
+    "type": "cat"
+  },
+  {
+    "adaptability": 3,
+    "image": "https://pixabay.com/get/g0e43bf00ac9682cfbccf95a2725f5074692038087e605362d8568453b8182f52f000deefa6b619cee479d4aaf8690bba3aa32914482c1ad1ad482fb1d988e62863c1a838f9c347a28890dbe1d73e360b_640.jpg",
+    "maintenance": 4,
+    "species": "love-bird",
+    "type": "bird"
+  },
+  {
+    "adaptability": 3,
+    "breed": "scottish-fold",
+    "image": "https://pixabay.com/get/ga0cf439c9ec7b062d2e076dfcf7fcadc064eede839bf41cef92bd13f074a6256fa6bc02ef0c5a338f5ae3a98f854b7f62ec18720dc9dd414f09fe6c61f65f800b0032bd7166258c19da166ad0a1c14d0_640.jpg",
+    "maintenance": 2,
+    "type": "cat"
+  }
+]

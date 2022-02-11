@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Yoyo Chooses Pets!</title>
+  <link rel="stylesheet" type="text/css" href="/node_modules//bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/src/main.css">
+</head>
+
+<body>
+  <div class="container p-5">
+    <div class="row">
+      <div class="col-12">
+        <div class="alert alert-primary" role="alert">
+          Let's Help Yoyo choose her pet!
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 pb-3">
+        Sorting options go here...
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div class="stack bg-info rounded p-3">
+
+          <h6 class="text-white">Cats</h6>
+          <hr>
+
+          <div class="card mb-3">
+            <div class="card-body">
+              <p>PET IMAGE</p>
+              <h5 class="card-title">BREED / SPECIES</h5>
+              <p class="card-text">
+                INFOs ON EACH PET
+              </p>
+            </div>
+          </div>
+
+          <div class="card mb-3">
+            <div class="card-body">
+              <p>PET IMAGE</p>
+              <h5 class="card-title">BREED / SPECIES</h5>
+              <p class="card-text">
+                INFOs ON EACH PET
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="stack bg-info rounded p-3">
+          <p class="text-white">
+            Let's add drag and drop of cards here so Yoyo and her parents can choose and reorder the pet she wants!
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script>
+  fetch('/pets')
+    .then(res => res.json())
+    .then(pets => console.info(pets))
+</script>
+</html>
