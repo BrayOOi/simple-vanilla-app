@@ -8,4 +8,6 @@ interface Pet {
   species?: string;
 }
 
+export type PetMapping = Record<Pet["type"], Array<Pet>>;
+
 export default Pet;
