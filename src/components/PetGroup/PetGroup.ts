@@ -1,5 +1,5 @@
 import Pet from "../../types/Pet";
-import { petCard } from "../PetCard";
+import { petCard } from "../PetCard/PetCard";
 import styles from './PetGroup.module.css';
 
 type PetGroup = {
