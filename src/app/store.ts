@@ -1,6 +1,7 @@
 import OptionState from "../types/Option";
 import Pet, { PetMapping } from "../types/Pet";
 import { ActionType } from "./actions";
+import { persistStore } from "./persist";
 import appReducer from "./reducer";
 
 export type Store = {
@@ -41,6 +42,7 @@ const dispatch: Dispatch = async (
   action,
 ) => {
   store = appReducer(store, action);
+  persistStore(store);
 
   rerenderEvent.triggerRerender(store);
 

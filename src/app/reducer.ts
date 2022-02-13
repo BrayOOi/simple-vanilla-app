@@ -5,9 +5,18 @@ import OptionState from "../types/Option";
 import { ActionType } from "./actions";
 import { Store } from "./store";
 import { PetsMap } from "./utils";
+import { rehydrateStore } from './persist';
 
 const appReducer = (prevStore: Store, action: ActionType): Store => {
   switch (action.type) {
+    case 'load/rehydrate_store':
+      const store = rehydrateStore();
+
+      if (store) {
+        return store;
+      } else {
+        return prevStore;
+      }
     case 'load/fetch_data_list':
       return produce(prevStore, draft => {
         draft.petMapping = PetsMap(action.payload)

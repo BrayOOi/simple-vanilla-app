@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { fetchDataList, removePreference, resetPreference } from './app/actions';
-import { getSortingOptions } from './app/selectors';
+import { fetchDataList, rehydrateStore, resetPreference } from './app/actions';
+import { getSortingOptions, getPetsMapping } from './app/selectors';
 import dispatch, { useSelector } from './app/store';
 import petGroup from './components/PetGroup/PetGroup';
 import petList from './components/PetList/PetList';
@@ -12,10 +12,15 @@ import type Pet from './types/Pet';
 // window.customElements.define(PetCardTag, PetCard);
 
 async function main() {
+  dispatch(rehydrateStore());
+
   // fetch data onload
-  const response = await fetch('/pets');
-  const petsArr: Array<Pet> = await response.json();
-  dispatch(fetchDataList(petsArr));
+  const petMapping = useSelector(getPetsMapping);
+  if (!petMapping) {
+    const response = await fetch('/pets');
+    const petsArr: Array<Pet> = await response.json();
+    dispatch(fetchDataList(petsArr));
+  }
 
   // render options
   const optionsContainer = document.querySelector('#sort-options');

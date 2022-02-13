@@ -1,6 +1,10 @@
 import Pet from "../types/Pet";
 import { Store } from "./store";
 
+export const rehydrateStore = () => ({
+  type: 'load/rehydrate_store' as const,
+})
+
 export const fetchDataList = (payload: Array<Pet>) => ({
   type: 'load/fetch_data_list' as const,
   payload
@@ -26,7 +30,8 @@ export const resetPreference = () => ({
 });
 
 export type ActionType = ReturnType<
-  typeof fetchDataList
+  typeof rehydrateStore
+  | typeof fetchDataList
   | typeof toggleSortOption
   | typeof addPreference
   | typeof resetPreference
