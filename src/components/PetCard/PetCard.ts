@@ -1,5 +1,6 @@
 import Pet from "../../types/Pet";
 import { preferenceListDragAbortHandler, preferenceListDragEventHandler } from "../PreferenceList/PreferenceList";
+import { removeButtonDragAboutHandler, removeButtonDragEventHandler } from "../RemoveButton/RemoveButton";
 import styles from './PetCard.module.css';
 
 const PetCardTag = 'pet-card';
@@ -40,12 +41,14 @@ function petCard(args: PetCard) {
         e.dataTransfer!.setData("text/plain", [type, breed || species || ''].join('/'));
 
         preferenceListDragEventHandler();
+        removeButtonDragEventHandler(type, breed || species || '');
       })
 
       cardContainer.addEventListener('dragend', e => {
         cardContainer.className = `card mb-3 ${styles["card-container"]}`;
 
         preferenceListDragAbortHandler();
+        removeButtonDragAboutHandler();
       })
   
       let card = document.createElement('div');

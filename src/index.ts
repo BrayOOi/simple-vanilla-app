@@ -1,10 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { fetchDataList } from './app/actions';
+import { fetchDataList, removePreference, resetPreference } from './app/actions';
 import { getSortingOptions } from './app/selectors';
 import dispatch, { useSelector } from './app/store';
 import petGroup from './components/PetGroup/PetGroup';
 import petList from './components/PetList/PetList';
 import preferenceList from './components/PreferenceList/PreferenceList';
+import removeButton from './components/RemoveButton/RemoveButton';
 import sortOption from './components/SortOption/SortOption';
 import type Pet from './types/Pet';
 
@@ -32,7 +33,17 @@ async function main() {
   // render preference list
   preferenceList();
 
-  }
+  // add remove handler
+  removeButton();
+
+  // add reset handler
+  const resetButton = document.querySelector('#preference-list-reset');
+
+  resetButton?.addEventListener('click', e => {
+    e.preventDefault();
+
+    dispatch(resetPreference());
+  });
 }
 
 window.onload = main;

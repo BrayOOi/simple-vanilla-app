@@ -30,11 +30,11 @@ const appReducer = (prevStore: Store, action: ActionType): Store => {
         draft.settings.sorting[action.payload] = nextState;
       });
     case 'drag/add_preference':
-      const [typeString, breedOrSpecies] = action.payload.split('/');
-      const type = typeString as Pet["type"];
-      const pet = prevStore.petMapping![type].find(pet => pet?.breed === breedOrSpecies || pet?.species === breedOrSpecies);
-
       return produce(prevStore, draft => {
+        const [typeString, breedOrSpecies] = action.payload.split('/');
+        const type = typeString as Pet["type"];
+        const pet = prevStore.petMapping![type].find(pet => pet?.breed === breedOrSpecies || pet?.species === breedOrSpecies);
+
         draft.petMapping![type] = draft.petMapping![type].filter(pet => pet?.breed !== breedOrSpecies && pet?.species !== breedOrSpecies);
         
         if (!draft.preferenceMapping) {
@@ -48,6 +48,36 @@ const appReducer = (prevStore: Store, action: ActionType): Store => {
             draft.preferenceMapping[type]!.push(pet);
           }
         }
+      });
+    case 'drag/remove_preference':
+      return produce(prevStore, draft => {
+        const [typeString, breedOrSpecies] = action.payload.split('/');
+        const type = typeString as Pet["type"];
+        const pet = prevStore.preferenceMapping![type]!.find(pet => pet?.breed === breedOrSpecies || pet?.species === breedOrSpecies);
+
+        draft.preferenceMapping![type] = draft.preferenceMapping![type]?.filter(pet => pet?.breed !== breedOrSpecies && pet?.species !== breedOrSpecies);
+
+        if (!draft.preferenceMapping![type]!.length) {
+          delete draft.preferenceMapping![type];
+        }
+
+        if (!Object.keys(draft.preferenceMapping!).length) {
+          draft.preferenceMapping = null;
+        }
+
+        if (pet) {
+          draft.petMapping![type].push(pet);
+        }
+      });
+    case 'click/reset_preference':
+      return produce(prevStore, draft => {
+        Object.entries(prevStore.preferenceMapping!).forEach(([typeString, pets]) => {
+          const type = typeString as Pet["type"];
+
+          draft.petMapping![type] = [...draft.petMapping![type], ...pets];
+        });
+
+        draft.preferenceMapping = null;
       });
     default:
       return prevStore;
