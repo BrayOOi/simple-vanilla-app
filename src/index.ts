@@ -3,6 +3,8 @@ import { fetchDataList } from './app/actions';
 import { getSortingOptions } from './app/selectors';
 import dispatch, { useSelector } from './app/store';
 import petGroup from './components/PetGroup/PetGroup';
+import petList from './components/PetList/PetList';
+import preferenceList from './components/PreferenceList/PreferenceList';
 import sortOption from './components/SortOption/SortOption';
 import type Pet from './types/Pet';
 
@@ -14,8 +16,6 @@ async function main() {
   const petsArr: Array<Pet> = await response.json();
   dispatch(fetchDataList(petsArr));
 
-  const petsMapping = useSelector(state => state.petMapping);
-
   // render options
   const optionsContainer = document.querySelector('#sort-options');
   const settings = useSelector(getSortingOptions);
@@ -25,16 +25,13 @@ async function main() {
       value: key as keyof typeof settings
     }, optionsContainer);
   });
-  
+
   // render pet groups
-  if (petsMapping) {
-    Object.entries(petsMapping).forEach(([key, pets]) => {
-      petGroup({
-        title: key as Pet["type"],
-        pets,
-      },
-      settings);
-    });
+  petList();
+
+  // render preference list
+  preferenceList();
+
   }
 }
 

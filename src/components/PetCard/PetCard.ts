@@ -1,4 +1,5 @@
 import Pet from "../../types/Pet";
+import { preferenceListDragAbortHandler, preferenceListDragEventHandler } from "../PreferenceList/PreferenceList";
 import styles from './PetCard.module.css';
 
 const PetCardTag = 'pet-card';
@@ -11,6 +12,7 @@ function petCard(args: PetCard) {
     adaptability,
     maintenance,
     image,
+    type,
 
     breed,
     species
@@ -30,14 +32,20 @@ function petCard(args: PetCard) {
       cardContainer.setAttribute('draggable', 'true');
       cardContainer.addEventListener('mousedown', e => {
         cardContainer.className = `card mb-3 ${styles["is-dragging"]}`;
+
+        preferenceListDragEventHandler();
       });
 
       cardContainer.addEventListener('dragstart', e => {
-        e.dataTransfer!.setData("text/plain", breed || species || '');
+        e.dataTransfer!.setData("text/plain", [type, breed || species || ''].join('/'));
+
+        preferenceListDragEventHandler();
       })
 
       cardContainer.addEventListener('dragend', e => {
         cardContainer.className = `card mb-3 ${styles["card-container"]}`;
+
+        preferenceListDragAbortHandler();
       })
   
       let card = document.createElement('div');

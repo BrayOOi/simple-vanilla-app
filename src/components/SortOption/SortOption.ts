@@ -55,7 +55,11 @@ const sortOption = (args: SortOption, parentNode: Element | null) => {
     const nextNode = render({
       state: sortingOptions[args.value],
       value: args.value,
-    })
+    });
+
+    Array.from(node.children).forEach(child => {
+      node.removeChild(child);
+    });
 
     parentNode?.replaceChild(nextNode, node);
 

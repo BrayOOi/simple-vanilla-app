@@ -1,5 +1,4 @@
-import { getSortingOptions } from "../../app/selectors";
-import { rerenderEvent, Store } from "../../app/store";
+import { Store } from "../../app/store";
 import Pet from "../../types/Pet";
 import { petCard } from "../PetCard/PetCard";
 import styles from './PetGroup.module.css';
@@ -9,9 +8,7 @@ type PetGroup = {
   pets: Array<Pet>;
 }
 
-const list = document.querySelector('#pet-list');
-
-function petGroup(args: PetGroup, sortingOptions: Store["settings"]["sorting"], parentNode = list) {
+function petGroup(args: PetGroup, sortingOptions: Store["settings"]["sorting"], parentNode: Element) {
 
   const render = (args: PetGroup, sortingOptions: Store["settings"]["sorting"]) => {
     const { title, pets } = args;
@@ -60,17 +57,6 @@ function petGroup(args: PetGroup, sortingOptions: Store["settings"]["sorting"], 
 
   let node = render(args, sortingOptions);
   parentNode?.appendChild(node);
-
-  rerenderEvent.addEventListener('rerender', (e) => {
-    const store = (e as CustomEvent<Store>).detail;
-    const sortingOptions = getSortingOptions(store);
-
-    const nextNode = render(args, sortingOptions);
-
-    parentNode?.replaceChild(nextNode, node);
-
-    node = nextNode;
-  });
 }
 
 export default petGroup;

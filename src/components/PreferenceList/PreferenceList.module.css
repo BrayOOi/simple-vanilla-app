@@ -1,0 +1,16 @@
+.is-empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.preference-list-icon {
+  font-size: 100px;
+}
+
+.is-dragging {
+  background-color: #96c3d4;
+  border: 3px dotted white;
+  border-radius: 5px;
+}

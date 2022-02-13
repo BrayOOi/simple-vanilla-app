@@ -1,3 +1,7 @@
-.capitalize {
-  text-transform: capitalize;
+.card-container {
+  cursor: grab;
+}
+
+.is-dragging {
+  cursor: grabbing;
 }
