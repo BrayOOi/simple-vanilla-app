@@ -88,6 +88,19 @@ const appReducer = (prevStore: Store, action: ActionType): Store => {
 
         draft.preferenceMapping = null;
       });
+    case 'drag/reorder_preference':
+      return produce(prevStore, draft => {
+        const { id, newIndex } = action.payload;
+        const [typeString, breedOrSpecies] = id.split('/');
+        const type = typeString as Pet["type"];
+        const pet = prevStore.preferenceMapping![type]!.find(pet => pet?.breed === breedOrSpecies || pet?.species === breedOrSpecies);
+
+        draft.preferenceMapping![type] = draft.preferenceMapping![type]?.filter(pet => pet?.breed !== breedOrSpecies && pet?.species !== breedOrSpecies);
+
+        if (pet) {
+          draft.preferenceMapping![type]?.splice(newIndex, 0, pet);
+        }
+      });
     default:
       return prevStore;
   }

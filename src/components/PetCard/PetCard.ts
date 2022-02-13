@@ -1,3 +1,5 @@
+import { reorderPreference } from "../../app/actions";
+import dispatch, { useSelector } from "../../app/store";
 import Pet from "../../types/Pet";
 import { preferenceListDragAbortHandler, preferenceListDragEventHandler } from "../PreferenceList/PreferenceList";
 import { removeButtonDragAboutHandler, removeButtonDragEventHandler } from "../RemoveButton/RemoveButton";
@@ -8,7 +10,7 @@ const PetCardTag = 'pet-card';
 type PetCard = Pet;
 
 // https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/define
-function petCard(args: PetCard) {
+function petCard(args: PetCard, index: number) {
   const {
     adaptability,
     maintenance,
@@ -19,84 +21,104 @@ function petCard(args: PetCard) {
     species
   } = args;
 
-  const render = () => {
-    // constructor() {
-      // Always call super first in constructor
-      // super();
-  
-      // Create a shadow root
-      // var shadow = this.attachShadow({mode: 'open'});
-  
-      // Create wrappers
-      let cardContainer = document.createElement('div');
+  const render = () => {  
+    // Create wrappers
+    let cardContainer = document.createElement('div');
+    cardContainer.className = `card mb-3 ${styles["card-container"]}`;
+    cardContainer.setAttribute('draggable', 'true');
+
+    // user can drag and drop cards to preference list
+    cardContainer.addEventListener('mousedown', e => {
+      cardContainer.className = `card mb-3 ${styles["is-dragging"]}`;
+
+      preferenceListDragEventHandler();
+    });
+
+    cardContainer.addEventListener('dragstart', e => {
+      e.dataTransfer!.setData("text/plain", [type, breed || species || ''].join('/'));
+
+      preferenceListDragEventHandler();
+      preferenceListReorderDragHandler(type, cardContainer);
+      removeButtonDragEventHandler(type, breed || species || '');
+    })
+
+    cardContainer.addEventListener('dragend', e => {
       cardContainer.className = `card mb-3 ${styles["card-container"]}`;
-      cardContainer.setAttribute('draggable', 'true');
-      cardContainer.addEventListener('mousedown', e => {
-        cardContainer.className = `card mb-3 ${styles["is-dragging"]}`;
 
-        preferenceListDragEventHandler();
-      });
+      preferenceListDragAbortHandler();
+      removeButtonDragAboutHandler();
+    });
 
-      cardContainer.addEventListener('dragstart', e => {
-        e.dataTransfer!.setData("text/plain", [type, breed || species || ''].join('/'));
+    // user can drop card on top of other cards to displace cards in preference list
+    cardContainer.addEventListener('drop', e => {
+      e.preventDefault();
+  
+      const data = e.dataTransfer!.getData("text/plain");
 
-        preferenceListDragEventHandler();
-        removeButtonDragEventHandler(type, breed || species || '');
-      })
+      dispatch(reorderPreference(data, index));
+    });
 
-      cardContainer.addEventListener('dragend', e => {
-        cardContainer.className = `card mb-3 ${styles["card-container"]}`;
+    // Create children
+    let card = document.createElement('div');
+    card.className = 'row g-0';
 
-        preferenceListDragAbortHandler();
-        removeButtonDragAboutHandler();
-      })
-  
-      let card = document.createElement('div');
-      card.className = 'row g-0';
-  
-      let cardImageContainer = document.createElement('div');
-      cardImageContainer.className = 'col-md-4';
-  
-      let cardImage = document.createElement('img');
-      cardImage.setAttribute('src', image);
-      cardImage.className = 'img-fluid rounded-start';
-  
-      let cardBodyContainer = document.createElement('div');
-      cardBodyContainer.className = 'col-md-8';
-  
-      let cardBody = document.createElement('div');
-      cardBody.setAttribute('class', 'card-body');
-  
-      let cardTitle = document.createElement('h5');
-      const petTitle = breed || species || '';
-      cardTitle.textContent = petTitle.replaceAll('-', ' ');
-      cardTitle.className = `card-title capitalize`;
-  
-      let cardText = document.createElement('p');
-      cardText.setAttribute('class', 'card-text');
-      cardText.textContent = `
-        Adaptability: ${adaptability},
-        Maintenance: ${maintenance}
-      `;
-  
-      // attach the created elements to the shadow dom
-      // shadow.appendChild(container);
-      cardContainer.appendChild(card);
-  
-      card.appendChild(cardImageContainer);
-      cardImageContainer.appendChild(cardImage);
-  
-      card.appendChild(cardBodyContainer);
-      cardBodyContainer.appendChild(cardBody);
-  
-      cardBody.appendChild(cardTitle);
-      cardBody.appendChild(cardText);
+    let cardImageContainer = document.createElement('div');
+    cardImageContainer.className = 'col-md-4';
 
-      return cardContainer;
-    // }
+    let cardImage = document.createElement('img');
+    cardImage.setAttribute('src', image);
+    cardImage.className = 'img-fluid rounded-start';
+
+    let cardBodyContainer = document.createElement('div');
+    cardBodyContainer.className = 'col-md-8';
+
+    let cardBody = document.createElement('div');
+    cardBody.setAttribute('class', 'card-body');
+
+    let cardTitle = document.createElement('h5');
+    const petTitle = breed || species || '';
+    cardTitle.textContent = petTitle.replaceAll('-', ' ');
+    cardTitle.className = `card-title capitalize`;
+
+    let cardText = document.createElement('p');
+    cardText.setAttribute('class', 'card-text');
+    cardText.textContent = `
+      Adaptability: ${adaptability},
+      Maintenance: ${maintenance}
+    `;
+
+    cardContainer.appendChild(card);
+
+    card.appendChild(cardImageContainer);
+    cardImageContainer.appendChild(cardImage);
+
+    card.appendChild(cardBodyContainer);
+    cardBodyContainer.appendChild(cardBody);
+
+    cardBody.appendChild(cardTitle);
+    cardBody.appendChild(cardText);
+
+    return cardContainer;
   }
 
   return render();
+}
+
+function preferenceListReorderDragHandler(type: Pet["type"], card: HTMLDivElement) {
+  // highlight the preference list's same type of pets
+  const node = document.querySelector('#preference-list-container');
+
+  if (node) {
+    const targetGroup = Array.from(node.children).find(child => child.children[0].textContent === type);
+
+    if (targetGroup) {
+      Array.from(targetGroup.children)
+      .filter(child => child.tagName === 'DIV' && !child.isSameNode(card))
+      .forEach(child => {
+        child.classList.add(styles['can-drop']);
+      })
+    }
+  }
 }
 
 export {

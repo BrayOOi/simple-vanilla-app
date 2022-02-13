@@ -29,6 +29,14 @@ export const resetPreference = () => ({
   type: 'click/reset_preference' as const,
 });
 
+export const reorderPreference = (id: string, newIndex: number) => ({
+  type: 'drag/reorder_preference' as const,
+  payload: {
+    id,
+    newIndex
+  }
+}); 
+
 export type ActionType = ReturnType<
   typeof rehydrateStore
   | typeof fetchDataList
@@ -36,4 +44,5 @@ export type ActionType = ReturnType<
   | typeof addPreference
   | typeof resetPreference
   | typeof removePreference
+  | typeof reorderPreference
 >;

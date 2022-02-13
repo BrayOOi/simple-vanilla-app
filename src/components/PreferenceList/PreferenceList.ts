@@ -89,7 +89,11 @@ export function preferenceListDragEventHandler() {
   const node = document.querySelector('#preference-list-container');
 
   if (node) {
-    node.className += node.children.length === 2 ? ` ${styles["is-dragging"]}` : '';
+    // remove helper text if user successfully dragged the card to preference list
+    node.className += 
+      Array.from(node.children).every(child => child.tagName === 'DIV')
+      ? ''
+      : ` ${styles["is-dragging"]}`;
   }
 }
 
@@ -97,7 +101,10 @@ export function preferenceListDragAbortHandler() {
   const node = document.querySelector('#preference-list-container');
 
   if (node) {
-    node.className = node.children.length === 2 ? styles["is-empty"] : '';
+    // remove helper text if user successfully dragged the card to preference list
+    node.className = Array.from(node.children).every(child => child.tagName === 'DIV')
+    ? ''
+    : styles["is-empty"];
   }
 }
 

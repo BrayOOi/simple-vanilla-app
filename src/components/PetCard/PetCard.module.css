@@ -5,3 +5,7 @@
 .is-dragging {
   cursor: grabbing;
 }
+
+.can-drop {
+  background-color: rgb(221, 255, 221);
+}

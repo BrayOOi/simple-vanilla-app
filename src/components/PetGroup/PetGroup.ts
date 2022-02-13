@@ -46,8 +46,8 @@ function petGroup(args: PetGroup, sortingOptions: Store["settings"]["sorting"], 
           return 0;
       }
     })
-    .forEach(pet => {
-      const card = petCard(pet);
+    .forEach((pet, index) => {
+      const card = petCard(pet, index);
   
       groupContainer.appendChild(card);
     });
