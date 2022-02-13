@@ -10,6 +10,17 @@ const PetsMap = (pets: Array<Pet>) => {
   return petMapping;
 };
 
+// disregard subsequent calls with this decorator
+function onlyFirst(fn: () => void) {
+  let firstInvoke = true;
+
+  if (firstInvoke) {
+    firstInvoke = false;
+    fn();
+  }
+}
+
 export {
   PetsMap,
+  onlyFirst
 };

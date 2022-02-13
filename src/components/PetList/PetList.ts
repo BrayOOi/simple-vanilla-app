@@ -1,18 +1,17 @@
 import { getPetsMapping, getSortingOptions } from "../../app/selectors";
-import { rerenderEvent, Store, useSelector } from "../../app/store";
-import Pet, { PetMapping } from "../../types/Pet";
+import smartComponent from "../../app/SmartComponent";
+import { Store } from "../../app/store";
+import Pet from "../../types/Pet";
 import petGroup from "../PetGroup/PetGroup";
 
 const parentNode = document.querySelector('#pet-list');
 
 function petList() {
-  const petsMapping = useSelector(getPetsMapping);
-  const sortingOptions = useSelector(getSortingOptions);
+  const render = (store: Store) => {
+    const petsMapping = getPetsMapping(store);
+    const sortingOptions = getSortingOptions(store);
+    const listContainer = document.createElement('div');
 
-  const listContainer = document.createElement('div');
-  parentNode?.appendChild(listContainer);
-
-  const render = (petsMapping: PetMapping | null, sortingOptions: Store["settings"]["sorting"]) => {
     if (petsMapping) {
       Object.entries(petsMapping).forEach(([key, pets]) => {
         if (pets.length) {
@@ -29,23 +28,7 @@ function petList() {
     return listContainer;
   };
 
-  let node = render(petsMapping, sortingOptions);
-
-  rerenderEvent.addEventListener('rerender', (e) => {
-    const store = (e as CustomEvent<Store>).detail;
-    const petsMapping = getPetsMapping(store);
-    const sortingOptions = useSelector(getSortingOptions);
-
-    Array.from(node.children).forEach(child => {
-      node.removeChild(child);
-    });
-
-    const nextNode = render(petsMapping, sortingOptions);
-
-    parentNode?.replaceChild(nextNode, node);
-
-    node = nextNode;
-  });
+  smartComponent(render, parentNode);
 }
 
 export default petList;

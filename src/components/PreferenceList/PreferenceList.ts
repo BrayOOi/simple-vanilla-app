@@ -1,7 +1,8 @@
 import { addPreference } from "../../app/actions";
 import { getPreferenceMapping, getSortingOptions } from "../../app/selectors";
-import dispatch, { rerenderEvent, Store, useSelector } from "../../app/store";
-import Pet, { PetMapping } from "../../types/Pet";
+import smartComponent from "../../app/SmartComponent";
+import dispatch, { Store } from "../../app/store";
+import Pet from "../../types/Pet";
 import petGroup from "../PetGroup/PetGroup";
 
 import styles from './PreferenceList.module.css';
@@ -9,14 +10,13 @@ import styles from './PreferenceList.module.css';
 const parentNode = document.querySelector('#preference-list');
 
 function preferenceList() {
-  const preferenceMapping = useSelector(getPreferenceMapping);
-  const sortingOptions = useSelector(getSortingOptions);
-
   const listContainer = document.createElement('div');
   listContainer.setAttribute('id', 'preference-list-container');
-  parentNode?.appendChild(listContainer);
 
-  const render = (preferenceMapping: Partial<PetMapping> | null, sortingOptions: Store["settings"]["sorting"]) => {
+  const render = (store: Store) => {
+    const preferenceMapping = getPreferenceMapping(store);
+    const sortingOptions = getSortingOptions(store);
+
     if (preferenceMapping) {
       listContainer.className = '';
 
@@ -45,9 +45,10 @@ function preferenceList() {
 
     return listContainer;
   };
-  
-  let node = render(preferenceMapping, sortingOptions);
 
+  const node = smartComponent(render, parentNode);
+
+  // event handlers
   node?.addEventListener('drop', e => {
     e.preventDefault();
     
@@ -66,22 +67,6 @@ function preferenceList() {
 
       firstInvoke = false;
     }
-  });
-
-  rerenderEvent.addEventListener('rerender', (e) => {
-    const store = (e as CustomEvent<Store>).detail;
-    const preferenceMapping = getPreferenceMapping(store);
-    const sortingOptions = useSelector(getSortingOptions);
-
-    Array.from(node.children).forEach(child => {
-      node.removeChild(child);
-    });
-
-    const nextNode = render(preferenceMapping, sortingOptions);
-
-    parentNode?.replaceChild(nextNode, node);
-
-    node = nextNode;
   });
 }
 
