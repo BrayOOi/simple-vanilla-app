@@ -9,6 +9,8 @@ const PetCardTag = 'pet-card';
 
 type PetCard = Pet;
 
+let MEMOIZED_CARDS: { [key: string]: HTMLDivElement } = {};
+
 // https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/define
 function petCard(args: PetCard, index: number) {
   const {
@@ -59,44 +61,51 @@ function petCard(args: PetCard, index: number) {
     });
 
     // Create children
-    let card = document.createElement('div');
-    card.className = 'row g-0';
+    let card;
+    if (MEMOIZED_CARDS[breed || species || type]) {
+      card = MEMOIZED_CARDS[breed || species || type];
+    } else {
+      card = document.createElement('div');
+      card.className = 'row g-0';
+  
+      let cardImageContainer = document.createElement('div');
+      cardImageContainer.className = 'col-md-4';
+  
+      let cardImage = document.createElement('img');
+      cardImage.setAttribute('src', image);
+      cardImage.className = 'img-fluid rounded-start';
+  
+      let cardBodyContainer = document.createElement('div');
+      cardBodyContainer.className = 'col-md-8';
+  
+      let cardBody = document.createElement('div');
+      cardBody.setAttribute('class', 'card-body');
+  
+      let cardTitle = document.createElement('h5');
+      const petTitle = breed || species || '';
+      cardTitle.textContent = petTitle.replaceAll('-', ' ');
+      cardTitle.className = `card-title capitalize`;
+  
+      let cardText = document.createElement('p');
+      cardText.setAttribute('class', 'card-text');
+      cardText.textContent = `
+        Adaptability: ${adaptability},
+        Maintenance: ${maintenance}
+      `;
 
-    let cardImageContainer = document.createElement('div');
-    cardImageContainer.className = 'col-md-4';
+      card.appendChild(cardImageContainer);
+      cardImageContainer.appendChild(cardImage);
 
-    let cardImage = document.createElement('img');
-    cardImage.setAttribute('src', image);
-    cardImage.className = 'img-fluid rounded-start';
+      card.appendChild(cardBodyContainer);
+      cardBodyContainer.appendChild(cardBody);
 
-    let cardBodyContainer = document.createElement('div');
-    cardBodyContainer.className = 'col-md-8';
-
-    let cardBody = document.createElement('div');
-    cardBody.setAttribute('class', 'card-body');
-
-    let cardTitle = document.createElement('h5');
-    const petTitle = breed || species || '';
-    cardTitle.textContent = petTitle.replaceAll('-', ' ');
-    cardTitle.className = `card-title capitalize`;
-
-    let cardText = document.createElement('p');
-    cardText.setAttribute('class', 'card-text');
-    cardText.textContent = `
-      Adaptability: ${adaptability},
-      Maintenance: ${maintenance}
-    `;
+      cardBody.appendChild(cardTitle);
+      cardBody.appendChild(cardText);
+    }
 
     cardContainer.appendChild(card);
 
-    card.appendChild(cardImageContainer);
-    cardImageContainer.appendChild(cardImage);
-
-    card.appendChild(cardBodyContainer);
-    cardBodyContainer.appendChild(cardBody);
-
-    cardBody.appendChild(cardTitle);
-    cardBody.appendChild(cardText);
+    MEMOIZED_CARDS[breed || species || type] = card;
 
     return cardContainer;
   }
