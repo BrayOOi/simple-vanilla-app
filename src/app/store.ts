@@ -1,24 +1,37 @@
+import OptionState from "../types/Option";
 import Pet, { PetMapping } from "../types/Pet";
 import { ActionType } from "./actions";
 import appReducer from "./reducer";
 
 export type Store = {
   readonly petMapping: PetMapping | null;
-  readonly preferenceList: Array<Pet>;
+  readonly preferenceMapping: Partial<PetMapping> | null;
   readonly settings: {
-    adaptability: 'asc' | 'desc' | null;
-    maintenance: 'asc' | 'desc' | null;
+    sorting: {
+      maintenance: OptionState;
+      adaptability: OptionState;
+    }
   };
 }
 
 let store: Store = {
   petMapping: null,
-  preferenceList: [],
+  preferenceMapping: null,
   settings: {
-    adaptability: null,
-    maintenance: null
+    sorting: {
+      maintenance: null,
+      adaptability: null
+    }
   }
 };
+
+class RerenderEvent extends EventTarget {
+  triggerRerender(store: Store) {
+    this.dispatchEvent(new CustomEvent('rerender', { detail: store }));
+  }
+}
+
+export const rerenderEvent = new RerenderEvent;
 
 type Dispatch = (
   action: ActionType
@@ -28,6 +41,8 @@ const dispatch: Dispatch = async (
   action,
 ) => {
   store = appReducer(store, action);
+
+  rerenderEvent.triggerRerender(store);
 
   return store;
 };
