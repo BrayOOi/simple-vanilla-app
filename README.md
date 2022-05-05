@@ -1,6 +1,6 @@
 ## Vanilla JavaScript App
 
-This vanilla JS (actually TS) app is built without any major modern Front-End frameworks, and only used a handful of libraries including TS, webpack and immer for better readability and benefits from modern Front End code structure.
+This vanilla JS (actually TS) app is built without any major modern Front-End frameworks, and only used a handful of libraries including TS, webpack and immer for better readability and clarity of modular Front End code structure. 
 
 This vanilla JS app attempts to replicate React's style of working with Front-End (eg. Container and Presentational Components, re-rendering, unidirectional data flow and a Redux store), and some ideas such as reducers, hooks, actions, dispatch, store, and store rehydrating.
 
@@ -10,17 +10,12 @@ On top of those, this app also utilized [Custom Events](https://developer.mozill
 
 Below are the basic features for the application:
 
-- They can see the grouped list of pets
-- They can sort the list of pets in the **first** stack by Adaptability **and / or** Maintenance
-- They can drag their favourite pets from the list to the favourite list
-- They can reorder their preferences in the favourite list
-- They can remove a pet from their preferences in the favourite list
-- They can save or reset their preferences on both lists
-
-## Resources
-
-You're given a simple project with a very simple express server that not only renders the main HTML page, but also returns you the list of pets through `/pets` endpoint!
-You're free to change things around however you see fit if you feel it'd be helpful! The HTML structure from Angela will get you started but you can also find a wireframe in `static` folder of how the result should look like!
+- The user can see the grouped list of pets
+- The user can sort the list of pets in the **first** stack by Adaptability **and / or** Maintenance
+- The user can drag their favourite pets from the list to the favourite list
+- The user can reorder their preferences in the favourite list
+- The user can remove a pet from their preferences in the favourite list
+- The user can save or reset their preferences on both lists
 
 ## How To Setup
 
@@ -37,6 +32,10 @@ $ npm run start
 ```
 
 Server is listening to port `8000`
+
+## Roadmap
+- Rewrite the components to utilize Web Components
+- Polish the UI
 
 ### API
 
